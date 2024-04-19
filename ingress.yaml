@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello
+  namespace: example-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/subnets: subnet-0cde0cd2e5c33aed0,subnet-0dca5753b02fb4f2e
+    alb.ingress.kubernetes.io/scheme: internet-facing
+spec:
+  ingressClassName: alb  # Replace kubernetes.io/ingress.class with spec.ingressClassName
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-app-chart
+            port:
+              number: 80
